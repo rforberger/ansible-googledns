@@ -1,0 +1,30 @@
+---
+
+- name: get info on a managed zone
+  google.cloud.gcp_dns_managed_zone_info:
+    dns_name: "forberger-online.de."
+    project: "production-300716"
+    auth_kind: serviceaccount
+    service_account_file: "/etc/googlecloud/serviceaccounts/production-300716-4332b0eff92f.json"
+  register: managed_zone
+  when: "'fai' in ansible_run_tags"
+
+- name: create a resource records for vms
+  google.cloud.gcp_dns_resource_record_set:
+    name: "{{ item.vm_hostname }}."
+    managed_zone: "{{ managed_zone.resources[0] }}"
+    type: A
+    ttl: 86400
+    target:
+      - "{{ item.ip }}"
+    project: production-300716
+    auth_kind: serviceaccount
+    service_account_file: "/etc/googlecloud/serviceaccounts/production-300716-4332b0eff92f.json"
+    state: present
+  loop: "{{ vms }}"
+  when: "'fai' in ansible_run_tags"
+
+
+
+
+

@@ -1,0 +1,15 @@
+---
+dependencies: [googlecloud]
+
+galaxy_info:
+  role_name: googledns
+  author: ronnyforberger
+  description: A role to deploy Google Cloud DNS
+  company: ""
+  license: "license (BSD, MIT)"
+  min_ansible_version: 2.4
+  platforms:
+    - name: Debian
+      versions:
+        - all
+
